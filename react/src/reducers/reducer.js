@@ -1,25 +1,24 @@
 import merge from 'lodash/merge';
-import { UPDATE_SEARCH_STRING, UPDATE_IS_LOADING, SET_IMAGES, LOAD_MORE_IMAGES } from '../actions/actions.js';
+import { UPDATE_SEARCH_STRING, UPDATE_IS_LOADING, RECEIVE_ITEMS, RECEIVE_ITEM, TOGGLE_FAVORITE } from '../actions/actions.js';
 
 const initialState = {
   searchString: '',
   isLoading: false,
-  pageNumber: 1,
-  images: [],
+  pageNumber: 0,
+  items: [],
+  item: []
 }
 
 const Reducer = (state = initialState, action) => {
-  Object.freeze(state);
-
   switch (action.type) {
     case UPDATE_SEARCH_STRING:
       return merge({}, state, { searchString: action.searchString });
     case UPDATE_IS_LOADING:
       return merge({}, state, { isLoading: action.isLoading });
-    case SET_IMAGES:
-      return merge({}, state, { pageNumber: 1, images: action.images });
-    case LOAD_MORE_IMAGES:
-      return merge({}, state, { pageNumber: (state.pageNumber + 1), images: state.images.concat(action.images) });
+    case RECEIVE_ITEMS:
+      return merge({}, state, { pageNumber: (state.pageNumber + 1), items: state.items.concat(action.items.items) });
+    case RECEIVE_ITEM:
+      return merge({}, state, { item: action.item });
     default:
       return state;
   }

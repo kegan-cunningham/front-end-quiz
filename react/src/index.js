@@ -1,21 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import {Provider} from "react-redux";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import ItemList from "./pages/ItemList";
-import ItemPage from "./pages/ItemPage";
-import store from "./store";
+import ItemsPage from "./containers/ItemsPageContainer";
+import ItemPage from "./containers/ItemPageContainer";
+import Store from "./store/store";
+const store = Store();
 
-class App extends React.Component
+class AppRouter extends React.Component
 {
   render()
   {
     return(
       <BrowserRouter>
         <Switch>
-            <Route exact path="/" component={ItemList} />
+            <Route exact path="/" component={ItemsPage} />
             <Route path="/item/:id" component={ItemPage} />
         </Switch>
       </BrowserRouter>
@@ -23,4 +23,4 @@ class App extends React.Component
   }
 }
 
-ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById("root"));
+ReactDOM.render(<Provider store={store}><AppRouter /></Provider>, document.getElementById("root"));
