@@ -11,6 +11,7 @@ function mapStateToProps(state, ownProps) {
   return {
     isLoading: state.isLoading || false,
     item: item || [],
+    favorites: state.favorites || [],
   };
 }
 

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 class ItemPage extends Component {
 
   componentDidMount() {
-    //To not refetch if data is present.
     this.props.fetchItem(this.props.match.params.id)
   }
 

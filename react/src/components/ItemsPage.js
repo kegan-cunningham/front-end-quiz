@@ -1,38 +1,66 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-const ItemsPage = props => {
-  const { isLoading } = props;
-  // const { fetchItems, favorites, favoriteToggle } = props;
-  const { fetchItems } = props;
-  const { pageNumber } = props;
-  if (isLoading) {
-    return <div>Loading...</div>;
+class ItemsPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      fetched: false,
+    };
+    this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
   }
-  return (
-    <div className="items-page">
-      <h3 className="browse-header">Browse Page</h3>
-      <div className="items-container">
-        <Item items={props.items}/>
+
+  componentDidMount() {
+    if(this.state.fetched == false) {
+      this.setState({fetched: true})
+      this.props.fetchItems();
+    }
+  }
+
+  handleFavoriteClick(id) {
+    return (e) => {
+      e.preventDefault();
+      this.props.toggleFavorite(id);
+      this.setState(this.state);
+    };
+  }
+
+  render(){
+    return (
+      <div className="items-page">
+        <h3 className="browse-header">Browse Page</h3>
+        <div className="items-container">
+          <Item
+            items={this.props.items}
+            favorites={this.props.favorites}
+            handleFavoriteClick={this.handleFavoriteClick}
+          />
+        </div>
+        <div className="load-button">
+          <LoadButton
+            fetchItems={this.props.fetchItems}
+            pageNumber={this.props.pageNumber}
+          />
+        </div>
       </div>
-      <div className="load-button">
-        <LoadButton
-          // fetchLimitReached={fetchLimitReached}
-          fetchItems={fetchItems}
-          pageNumber={pageNumber}
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 const Item = props => {
   const items = props.items || []
   if (items == undefined){
-    return items;
+    return [];
   }
-  console.log(items)
+  let favorite;
+
   return items.map(item => {
+    if(props.favorites.includes(item.integerId)){
+      favorite =  '\u2665';
+    } else {
+      favorite = '\u2661';
+    }
     return (
       <div
         className="browse-item"
@@ -44,14 +72,18 @@ const Item = props => {
             src={item.image}
             alt={item.description}
           />
-          <p className="price">{item.price === null ? 'Price upon request' : item.price.amounts.USD}</p>
         </Link>
-        {/* <Favorite
-          class="item-footer"
-          favorites={props.favorites}
-          toggleFavorite={props.toggleFavorite}
-          id={item.integerId}
-        /> */}
+        <section className="items-bottom">
+          <p className="price">
+            {item.price === null ? 'Price upon request' : item.price.amounts.USD}
+          </p>
+          <button
+            onClick={props.handleFavoriteClick(item.integerId)}
+            className="items-heart"
+          >
+            {favorite}
+          </button>
+        </section>
       </div>
     );
   });
