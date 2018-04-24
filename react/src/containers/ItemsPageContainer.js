@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ItemsPage from '../components/ItemsPage';
-import { fetchItems, toggleFavorite } from '../actions/actions';
+import { fetchItems, toggleFavorite, updateIsLoading } from '../actions/actions';
 import '../styles/styles.css';
 
 function mapStateToProps(state) {
   return {
     isLoading: state.isLoading || false,
     pageNumber: state.pageNumber || 0,
-    searchString: state.searchString || '',
     items: state.items || [],
   };
 }
@@ -16,7 +14,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
     return {
         fetchItems: pageNumber => dispatch(fetchItems(pageNumber)),
-        toggleFavorite: id => dispatch(toggleFavorite(id))
+        toggleFavorite: id => dispatch(toggleFavorite(id)),
+        updateIsLoading: bool => dispatch(updateIsLoading(bool))
     }
 }
 

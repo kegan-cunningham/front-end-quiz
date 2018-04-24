@@ -12,7 +12,7 @@ class ItemsPage extends Component {
   }
 
   componentDidMount() {
-    if(this.state.fetched == false && this.props.items.length === 0) {
+    if(this.state.fetched === false && this.props.items.length === 0) {
       this.setState({fetched: true})
       this.props.fetchItems();
     }
@@ -42,6 +42,8 @@ class ItemsPage extends Component {
             fetchItems={this.props.fetchItems}
             pageNumber={this.props.pageNumber}
             items={this.props.items}
+            isLoading={this.props.isLoading}
+            updateIsLoading={this.props.updateIsLoading}
           />
         </div>
       </div>
@@ -51,12 +53,12 @@ class ItemsPage extends Component {
 
 const Item = props => {
   const items = props.items || []
-  if (items == undefined){
+  if (items === undefined){
     return [];
   }
   let favorite;
   return items.map(item => {
-    if(localStorage.getItem(item.integerId) == 1){
+    if(localStorage.getItem(item.integerId) === 1){
       favorite =  '\u2665';
     } else {
       favorite = '\u2661';
@@ -90,13 +92,17 @@ const Item = props => {
 };
 
 const LoadButton = props => {
-  if (props.items.length > 57){
+  if (props.items.length > 57 || props.isLoading === true){
     return null;
+  }
+  const fetch = () => {
+    props.updateIsLoading(true);
+    props.fetchItems(props.pageNumber);
   }
   return (
     <button
       className="load-more-button"
-      onClick={() => (props.fetchItems(props.pageNumber))}
+      onClick={fetch}
     >
       LOAD MORE
     </button>

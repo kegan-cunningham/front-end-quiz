@@ -41,13 +41,12 @@ class ItemPage extends Component {
 
 const Item = props => {
   const item = props.item || []
-  console.log(item);
   const measurements = item.measurements
-  if (measurements == undefined){
+  if (measurements === undefined){
     return null;
   }
   let favorite;
-  if(localStorage.getItem(item.integerId) == 1){
+  if(localStorage.getItem(item.integerId) === 1){
     favorite =  '\u2665';
   } else {
     favorite = '\u2661';

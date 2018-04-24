@@ -1,17 +1,11 @@
 import * as APIUtil from '../util/ItemsUtil';
 
-export const UPDATE_SEARCH_STRING = 'UPDATE_SEARCH_STRING';
 export const UPDATE_IS_LOADING = 'UPDATE_IS_LOADING';
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const FETCH_ITEMS = 'FETCH_ITEMS'
 export const FETCH_ITEM = 'FETCH_ITEM'
 export const RECEIVE_ITEMS = 'RECEIVE_ITEMS'
 export const RECEIVE_ITEM = 'RECEIVE_ITEM'
-
-export const updateSearchString = (searchString) => ({
-  type: UPDATE_SEARCH_STRING,
-  searchString,
-});
 
 export const updateIsLoading = (bool) => ({
   type: UPDATE_IS_LOADING,
