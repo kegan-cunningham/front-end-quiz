@@ -46,7 +46,7 @@ const Item = props => {
     return null;
   }
   let favorite;
-  if(localStorage.getItem(item.integerId) === 1){
+  if(localStorage.getItem(item.integerId) == 1){
     favorite =  '\u2665';
   } else {
     favorite = '\u2661';

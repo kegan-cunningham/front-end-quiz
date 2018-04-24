@@ -9,12 +9,12 @@ const initialState = {
 }
 
 const Reducer = (state = initialState, action) => {
-  console.log(state)
   switch (action.type) {
     case UPDATE_IS_LOADING:
       return merge({}, state, { isLoading: action.bool });
     case TOGGLE_FAVORITE:
-      let toggled = (localStorage.getItem(action.itemId) === 0) ? 1 : 0;
+      console.log(localStorage.getItem(action.itemId))
+      let toggled = (localStorage.getItem(action.itemId) == 0) ? 1 : 0;
       localStorage.setItem(action.itemId, toggled);
       return state;
     case RECEIVE_ITEMS:
