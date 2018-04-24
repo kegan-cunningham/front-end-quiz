@@ -3,19 +3,36 @@ import { Link } from 'react-router-dom';
 
 class ItemPage extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchItem(this.props.match.params.id)
+  }
+
+  handleFavoriteClick(id) {
+    return (e) => {
+      e.preventDefault();
+      this.props.toggleFavorite(id);
+      this.setState(this.state);
+    };
   }
 
   render() {
     return (
       <div className="item-page">
         <h3 className="browse-header">
-          <Link to={`/`} className="browse-item-body">&lt; Back</Link>
+          <Link to={`/`} className="back-button">&lt; Back</Link>
           {this.props.item.seller ? this.props.item.seller.company : 'Item Page'}
         </h3>
         <div className="item-container">
-          <Item item={this.props.item}/>
+          <Item
+            item={this.props.item}
+            handleFavoriteClick={this.handleFavoriteClick}
+          />
         </div>
       </div>
     );
@@ -29,6 +46,12 @@ const Item = props => {
   if (measurements == undefined){
     return null;
   }
+  let favorite;
+  if(localStorage.getItem(item.integerId) == 1){
+    favorite =  '\u2665';
+  } else {
+    favorite = '\u2661';
+  }
   return (
     <div
       className="item"
@@ -40,6 +63,12 @@ const Item = props => {
           src={item.image}
           alt={item.description}
         />
+        <button
+          onClick={props.handleFavoriteClick(item.integerId)}
+          className="item-heart"
+        >
+          {favorite}
+        </button>
         <section className="item-right">
           <aside className="desc-top">
             <h2 className="title">{item.title}</h2>

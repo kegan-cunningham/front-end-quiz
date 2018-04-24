@@ -12,7 +12,7 @@ class ItemsPage extends Component {
   }
 
   componentDidMount() {
-    if(this.state.fetched == false) {
+    if(this.state.fetched == false && this.props.items.length === 0) {
       this.setState({fetched: true})
       this.props.fetchItems();
     }
@@ -33,7 +33,7 @@ class ItemsPage extends Component {
         <div className="items-container">
           <Item
             items={this.props.items}
-            favorites={this.props.favorites}
+            favorites={this.state.favorites}
             handleFavoriteClick={this.handleFavoriteClick}
           />
         </div>
@@ -41,6 +41,7 @@ class ItemsPage extends Component {
           <LoadButton
             fetchItems={this.props.fetchItems}
             pageNumber={this.props.pageNumber}
+            items={this.props.items}
           />
         </div>
       </div>
@@ -54,9 +55,8 @@ const Item = props => {
     return [];
   }
   let favorite;
-
   return items.map(item => {
-    if(props.favorites.includes(item.integerId)){
+    if(localStorage.getItem(item.integerId) == 1){
       favorite =  '\u2665';
     } else {
       favorite = '\u2661';
@@ -66,7 +66,7 @@ const Item = props => {
         className="browse-item"
         key={parseInt(item.integerId, 10)}
       >
-        <Link to={`/item/${item.integerId}`} className="browse-item-body">
+        <Link to={`/item/${item.integerId}`} className="browse-image">
           <img
             className="item-img-top"
             src={item.image}
@@ -90,11 +90,13 @@ const Item = props => {
 };
 
 const LoadButton = props => {
+  if (props.items.length > 57){
+    return null;
+  }
   return (
     <button
       className="load-more-button"
       onClick={() => (props.fetchItems(props.pageNumber))}
-      // disabled={props.fetchLimitReached}
     >
       LOAD MORE
     </button>

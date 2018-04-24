@@ -11,13 +11,13 @@ function mapStateToProps(state, ownProps) {
   return {
     isLoading: state.isLoading || false,
     item: item || [],
-    favorites: state.favorites || [],
   };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchItem: id => dispatch(fetchItem(id)),
+        toggleFavorite: id => dispatch(toggleFavorite(id))
     }
 }
 

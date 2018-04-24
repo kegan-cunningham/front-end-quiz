@@ -10,7 +10,6 @@ function mapStateToProps(state) {
     pageNumber: state.pageNumber || 0,
     searchString: state.searchString || '',
     items: state.items || [],
-    favorites: state.favorites || [],
   };
 }
 

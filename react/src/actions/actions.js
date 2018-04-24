@@ -18,12 +18,10 @@ export const updateIsLoading = (bool) => ({
   bool,
 });
 
-export function toggleFavorite(id) {
-  return {
-    type: TOGGLE_FAVORITE,
-    itemId: id
-  };
-}
+export const toggleFavorite = (itemId) => ({
+  type: TOGGLE_FAVORITE,
+  itemId
+});
 
 export const receiveItems = items => ({
   type: RECEIVE_ITEMS,
